@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hücrede Bir Gün - Canlı Zaman Simülasyonu. Hücreyi hayatta tutmak için organeller arası dengeyi koru.">
+  <title>Hücrede Bir Gün - Canlı Zaman Simülasyonu</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Ana Menü Ekranı -->
+  <div id="screen-home" class="screen">
+    <h1 class="game-title">Hücrede Bir Gün</h1>
+    <p class="game-subtitle">Canlı Zaman Simülasyonu</p>
+    
+    <div class="menu-buttons">
+      <button id="btn-start" class="btn btn-primary" aria-label="Oyunu başlat">
+        🎮 Başla
+      </button>
+      <button id="btn-sim" class="btn btn-secondary" aria-label="Hücre simülasyonuna git">
+        🔬 Hücre Simülasyonu
+      </button>
+      <button id="btn-help" class="btn" aria-label="Nasıl oynanır bölümünü aç">
+        ❓ Nasıl Oynanır
+      </button>
+      <button id="btn-badges" class="btn" aria-label="Rozetler bölümünü aç">
+        🏆 Rozetler
+      </button>
+    </div>
+    
+    <div id="home-stats" class="home-stats" aria-label="Oyun istatistikleri">
+      <!-- İstatistikler JavaScript ile doldurulacak -->
+    </div>
+  </div>
+  
+  <!-- Simülasyon Ekranı -->
+  <div id="screen-sim" class="screen hidden">
+    <div class="game-area">
+      <!-- Oyun Başlığı ve Kontroller -->
+      <div class="game-header">
+        <div>
+          <h2>Hücre Simülasyonu</h2>
+          <div id="game-time" aria-live="polite">0:00</div>
+        </div>
+        <div class="controls">
+          <div class="time-scale-control">
+            <label for="time-scale" aria-label="Zaman hızı kontrolü">
+              Hız:
+            </label>
+            <input 
+              type="range" 
+              id="time-scale" 
+              min="0.5" 
+              max="2.0" 
+              step="0.1" 
+              value="1.0"
+              aria-label="Zaman hızı ayarı"
+            >
+            <span id="time-scale-value">1.0x</span>
+          </div>
+          <button id="btn-pause" class="btn" aria-label="Oyunu duraklat veya devam ettir">
+            ⏸ Duraklat
+          </button>
+          <button id="btn-back-to-menu" class="btn" aria-label="Ana menüye dön">
+            🏠 Menü
+          </button>
+        </div>
+      </div>
+      
+      <!-- Hücre Sahnesi -->
+      <div class="cell-container">
+        <div id="cell-scene" class="cell-scene" aria-label="Hücre görseli, organeller tıklanabilir">
+          <!-- Arka plan görseli -->
+          <img id="cell-background" class="cell-background" src="resimler/cell_membrane.png" alt="Hücre zarı ve sitoplazma">
+          
+          <!-- Organeller buraya dinamik olarak eklenecek -->
+        </div>
+        
+        <!-- Organel Bilgisi -->
+        <div id="organelle-info" class="organelle-info hidden" role="region" aria-label="Seçili organel bilgisi">
+          <!-- JavaScript ile doldurulacak -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Yan Panel -->
+    <div class="sidebar">
+      <!-- Progress Barlar -->
+      <section class="progress-section" aria-label="Hücre durumu göstergeleri">
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>⚡ ATP</span>
+            <span id="value-atp">70</span>
+          </div>
+          <div class="progress-bar-container">
+            <div id="progress-atp" class="progress-bar atp" style="width: 70%" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" aria-label="ATP seviyesi: 70%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>🗑️ Atık</span>
+            <span id="value-waste">20</span>
+          </div>
+          <div class="progress-bar-container">
+            <div id="progress-waste" class="progress-bar waste" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" aria-label="Atık seviyesi: 20%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>⚠️ Stres</span>
+            <span id="value-stress">10</span>
+          </div>
+          <div class="progress-bar-container">
+            <div id="progress-stress" class="progress-bar stress" style="width: 10%" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" aria-label="Stres seviyesi: 10%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>🧬 Protein</span>
+            <span id="value-protein">30</span>
+          </div>
+          <div class="progress-bar-container">
+            <div id="progress-protein" class="progress-bar protein" style="width: 30%" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" aria-label="Protein seviyesi: 30%"></div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Aksiyon Butonları -->
+      <section class="actions-section" aria-label="Oyun aksiyonları">
+        <button id="action-take-nutrient" class="action-btn" aria-label="Besin al, ATP kazan ama atık artar">
+          🍎 Besin Al
+        </button>
+        <button id="action-clean-waste" class="action-btn" aria-label="Atık temizle, ATP harca">
+          🧹 Atık Temizle
+        </button>
+        <button id="action-produce-protein" class="action-btn" aria-label="Protein üret, ATP ve atık maliyeti var">
+          🧬 Protein Üret
+        </button>
+        <button id="action-repair-organelle" class="action-btn" aria-label="Seçili organeli onar, yüksek ATP maliyeti">
+          🔧 Organel Onar
+        </button>
+      </section>
+      
+      <!-- Grafik -->
+      <section class="graph-section" aria-label="ATP seviyesi grafiği">
+        <h3 class="graph-title">ATP Grafiği</h3>
+        <div class="graph-container">
+          <canvas id="graph-canvas" aria-label="ATP seviyesi grafiği"></canvas>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+  <!-- Özet Ekranı (Story sonrası) -->
+  <div id="screen-summary" class="screen hidden">
+    <div class="summary-container">
+      <h2 class="summary-title">📋 Karar Özeti</h2>
+      
+      <div class="summary-content">
+        <!-- Kararlara göre bilgilendirici özet -->
+        <div class="summary-section">
+          <h3>📝 Özet</h3>
+          <div id="summary-analysis" class="summary-analysis">
+            <!-- JavaScript ile doldurulacak -->
+          </div>
+        </div>
+        
+        <div class="summary-section">
+          <h3>🎯 Verdiğin Kararlar</h3>
+          <div id="summary-decisions-list" class="summary-decisions-list">
+            <!-- JavaScript ile doldurulacak -->
+          </div>
+        </div>
+      </div>
+      
+      <div class="summary-actions">
+        <button id="btn-start-sim" class="btn btn-primary btn-large" aria-label="Oyunu başlat">
+          🎮 Oyunu Başlat
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Story Ekranı -->
+  <div id="screen-story" class="screen hidden">
+    <div class="game-area">
+      <!-- Hücre Sahnesi -->
+      <div class="cell-container">
+        <div id="story-cell-scene" class="cell-scene" aria-label="Hücre görseli, organeller tıklanabilir">
+          <!-- Arka plan görseli -->
+          <img id="story-cell-background" class="cell-background" src="resimler/cell_membrane.png" alt="Hücre zarı ve sitoplazma">
+          
+          <!-- Organeller buraya dinamik olarak eklenecek -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Yan Panel -->
+    <div class="sidebar">
+      <!-- Progress Barlar -->
+      <section class="progress-section" aria-label="Hücre durumu göstergeleri">
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>⚡ ATP</span>
+            <span id="story-value-atp">70</span>
+          </div>
+          <div class="progress-bar-container">
+            <div id="story-progress-atp" class="progress-bar atp" style="width: 70%" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" aria-label="ATP seviyesi: 70%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>🗑️ Atık</span>
+            <span id="story-value-waste">20</span>
+          </div>
+          <div class="progress-bar-container">
+            <div id="story-progress-waste" class="progress-bar waste" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" aria-label="Atık seviyesi: 20%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>⚠️ Stres</span>
+            <span id="story-value-stress">10</span>
+          </div>
+          <div class="progress-bar-container">
+            <div id="story-progress-stress" class="progress-bar stress" style="width: 10%" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" aria-label="Stres seviyesi: 10%"></div>
+          </div>
+        </div>
+        
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>🧬 Protein</span>
+            <span id="story-value-protein">30</span>
+          </div>
+          <div class="progress-bar-container">
+            <div id="story-progress-protein" class="progress-bar protein" style="width: 30%" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" aria-label="Protein seviyesi: 30%"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Story Card (Overlay) -->
+    <div id="story-card" class="story-card">
+      <div class="story-focus hidden" aria-label="Odak organel"></div>
+      <h2 class="story-title"></h2>
+      <p class="story-text"></p>
+      <div class="story-progress"></div>
+    </div>
+    
+    <!-- Story Buttons (Her zaman görünür) -->
+    <div class="story-buttons-container">
+      <button id="story-prev" class="btn story-btn-prev" aria-label="Önceki adım">
+        ← Geri
+      </button>
+      <button id="story-next" class="btn btn-primary story-btn-next" aria-label="Sonraki adım">
+        Devam
+      </button>
+    </div>
+  </div>
+  
+  <!-- Rozetler Ekranı -->
+  <div id="screen-badges" class="screen hidden">
+    <h1 class="game-title">Rozetler</h1>
+    <button id="btn-badges-back" class="btn" aria-label="Ana menüye dön">
+      ← Geri
+    </button>
+    
+    <div id="badges-grid" class="badges-grid" role="grid" aria-label="Kazanılan ve kilitli rozetler">
+      <!-- JavaScript ile doldurulacak -->
+    </div>
+  </div>
+  
+  <!-- Yardım Ekranı -->
+  <div id="screen-help" class="screen hidden">
+    <h1 class="game-title">Nasıl Oynanır?</h1>
+    <button id="btn-help-back" class="btn" aria-label="Ana menüye dön">
+      ← Geri
+    </button>
+    
+    <div id="help-content" class="help-content">
+      <!-- JavaScript ile doldurulacak -->
+    </div>
+  </div>
+  
+  <!-- Olay Kartı Modal -->
+  <div id="event-card" class="event-card hidden" role="dialog" aria-labelledby="event-title" aria-modal="true">
+    <h2 id="event-title" class="event-title"></h2>
+    <p id="event-description" class="event-description"></p>
+    <div id="event-options" class="event-options" role="group" aria-label="Olay seçenekleri">
+      <!-- JavaScript ile doldurulacak -->
+    </div>
+  </div>
+  
+  <!-- Oyun Bitiş Modal -->
+  <div id="game-over-modal" class="game-over-modal hidden" role="dialog" aria-labelledby="game-over-title" aria-modal="true">
+    <div class="game-over-content">
+      <h2 id="game-over-title">Oyun Bitti</h2>
+      <p>Hücre hayatta kalamadı. Nedenler:</p>
+      <ul id="game-over-reasons" class="game-over-reasons">
+        <!-- JavaScript ile doldurulacak -->
+      </ul>
+      <p>İpuçları:</p>
+      <ul id="game-over-hints" class="game-over-hints">
+        <!-- JavaScript ile doldurulacak -->
+      </ul>
+      <button class="btn btn-primary" onclick="location.reload()" aria-label="Oyunu yeniden başlat">
+        🔄 Tekrar Dene
+      </button>
+      <button class="btn" onclick="document.getElementById('game-over-modal').classList.add('hidden'); window.app.showScreen('home');" aria-label="Ana menüye dön">
+        🏠 Ana Menü
+      </button>
+    </div>
+  </div>
+  
+  <!-- Toast Bildirimleri -->
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+  
+  <!-- Debug Panel -->
+  <div id="debug-panel" class="hidden">
+    <h3>Debug Panel (Ctrl+D ile aç/kapat)</h3>
+    <pre id="debug-content"></pre>
+  </div>
+  
+  <!-- Hata Container -->
+  <div id="error-container" class="hidden"></div>
+  
+  <!-- JavaScript Modülleri -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
+
