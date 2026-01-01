@@ -1,0 +1,70 @@
+{
+  "game": {
+    "tickInterval": 500,
+    "timeScale": {
+      "min": 0.5,
+      "max": 2.0,
+      "default": 1.0
+    },
+    "initialValues": {
+      "atp": 70,
+      "waste": 20,
+      "stress": 10,
+      "protein": 30,
+      "organelles": {
+        "mitochondria": 100,
+        "ribosome": 100,
+        "lysosome": 100,
+        "golgi": 100,
+        "nucleus": 100
+      }
+    },
+    "thresholds": {
+      "atpCritical": 15,
+      "wasteDanger": 80,
+      "stressCritical": 85,
+      "organelleDeath": 0
+    },
+    "rates": {
+      "atpBaseProduction": 2.0,
+      "atpConsumptionBase": 0.5,
+      "wasteProductionBase": 0.3,
+      "wasteCleaningBase": 3.0,
+      "proteinProductionBase": 1.5,
+      "stressIncreaseBase": 0.2,
+      "organelleDecayBase": 0.1
+    },
+    "actions": {
+      "takeNutrient": {
+        "atpGain": 15,
+        "wasteCost": 5,
+        "cooldown": 3000
+      },
+      "cleanWaste": {
+        "wasteReduction": 20,
+        "atpCost": 10,
+        "cooldown": 2000
+      },
+      "produceProtein": {
+        "proteinGain": 10,
+        "atpCost": 8,
+        "wasteCost": 2,
+        "cooldown": 2500
+      },
+      "repairOrganelle": {
+        "healthGain": 15,
+        "atpCost": 20,
+        "stressCost": 3,
+        "cooldown": 4000
+      }
+    },
+    "events": {
+      "minInterval": 20000,
+      "maxInterval": 35000
+    },
+    "graph": {
+      "maxDataPoints": 120
+    }
+  }
+}
+
