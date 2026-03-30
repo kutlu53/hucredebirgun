@@ -1,0 +1,790 @@
+{
+  "organelles": {
+    "mitochondria": {
+      "name": "Mitokondri",
+      "description": "Hücrenin enerji üretim merkezi. ATP üretir. Hasar görürse tüm sistem yavaşlar.",
+      "icon": "⚡"
+    },
+    "ribosome": {
+      "name": "Ribozom",
+      "description": "Protein sentezinden sorumlu. ATP kullanarak protein üretir.",
+      "icon": "🧬"
+    },
+    "lysosome": {
+      "name": "Lizozom",
+      "description": "Atık temizleme organeli. Atıkları parçalar ve hücreyi temiz tutar.",
+      "icon": "🧹"
+    },
+    "golgi": {
+      "name": "Golgi Aygıtı",
+      "description": "Proteinleri işler ve paketler. Protein seviyesini düzenler.",
+      "icon": "📦"
+    },
+    "nucleus": {
+      "name": "Çekirdek",
+      "description": "Hücrenin kontrol merkezi. DNA'yı içerir ve genetik bilgiyi yönetir.",
+      "icon": "🎯"
+    },
+    "er": {
+      "name": "Endoplazmik Retikulum",
+      "description": "Protein ve lipid üretiminde görev alır. Hücre içi taşıma sistemidir.",
+      "icon": "🌐"
+    },
+    "vacuole": {
+      "name": "Koful",
+      "description": "Hücre içi depolama organeli. Su, besin ve atık maddeleri saklar.",
+      "icon": "💧"
+    },
+    "centrosome": {
+      "name": "Sentrozom",
+      "description": "Hücre bölünmesinde görev alır. Mikrotübüllerin organizasyon merkezidir.",
+      "icon": "⚙️"
+    }
+  },
+  "events": [
+    {
+      "id": "oxygen_low",
+      "title": "Oksijen Azaldı",
+      "description": "Hücre çevresindeki oksijen seviyesi düştü. Mitokondri etkileniyor.",
+      "options": [
+        {
+          "text": "Enerji tasarrufu modu",
+          "effects": {
+            "atpProductionMultiplier": 0.6,
+            "stressIncrease": -0.5,
+            "duration": 15000
+          }
+        },
+        {
+          "text": "Hızlı üretim dene",
+          "effects": {
+            "atpGain": 20,
+            "organelleDamage": {
+              "mitochondria": 10
+            },
+            "stressIncrease": 5
+          }
+        }
+      ],
+      "correctOption": 0
+    },
+    {
+      "id": "toxin",
+      "title": "Toksin Tespit Edildi",
+      "description": "Zararlı bir toksin hücreye girdi. Hızlı karar vermelisin!",
+      "options": [
+        {
+          "text": "Lizozomları aktifleştir",
+          "effects": {
+            "wasteCleaningBoost": 2.0,
+            "atpCost": 15,
+            "duration": 20000
+          }
+        },
+        {
+          "text": "Çekirdeği koruma altına al",
+          "effects": {
+            "organelleProtection": {
+              "nucleus": true
+            },
+            "atpCost": 10,
+            "stressIncrease": 3
+          }
+        }
+      ],
+      "correctOption": 0
+    },
+    {
+      "id": "sugar_surge",
+      "title": "Fazla Şeker",
+      "description": "Hücreye aşırı şeker girdi. Enerji patlaması ama atık riski var.",
+      "options": [
+        {
+          "text": "Kontrollü kullan",
+          "effects": {
+            "atpGain": 10,
+            "wasteIncrease": 3,
+            "stressIncrease": 1
+          }
+        },
+        {
+          "text": "Tam güç kullan",
+          "effects": {
+            "atpGain": 30,
+            "wasteIncrease": 15,
+            "stressIncrease": 8
+          }
+        }
+      ],
+      "correctOption": 0
+    },
+    {
+      "id": "protein_demand",
+      "title": "Protein Talebi",
+      "description": "Hücre daha fazla protein istiyor. Üretimi artırmalı mısın?",
+      "options": [
+        {
+          "text": "Ribozomları hızlandır",
+          "effects": {
+            "proteinProductionBoost": 1.5,
+            "atpConsumptionMultiplier": 1.3,
+            "duration": 18000
+          }
+        },
+        {
+          "text": "Mevcut proteinleri kullan",
+          "effects": {
+            "proteinCost": 5,
+            "atpGain": 8,
+            "stressIncrease": 2
+          }
+        }
+      ],
+      "correctOption": 0
+    },
+    {
+      "id": "heat_shock",
+      "title": "Isı Şoku",
+      "description": "Sıcaklık aniden yükseldi. Organeller zarar görebilir.",
+      "options": [
+        {
+          "text": "Soğutma mekanizması aktifleştir",
+          "effects": {
+            "atpCost": 12,
+            "organelleProtection": {
+              "all": true
+            },
+            "duration": 20000
+          }
+        },
+        {
+          "text": "Dayan ve bekle",
+          "effects": {
+            "organelleDamage": {
+              "all": 5
+            },
+            "stressIncrease": 10
+          }
+        }
+      ],
+      "correctOption": 0
+    },
+    {
+      "id": "virus_alert",
+      "title": "Viral Tehdit",
+      "description": "Bir virüs hücreye yaklaşıyor. Savunma mekanizmaları gerekli.",
+      "options": [
+        {
+          "text": "Çekirdeği koru, protein üretimini durdur",
+          "effects": {
+            "organelleProtection": {
+              "nucleus": true
+            },
+            "proteinProductionMultiplier": 0.3,
+            "atpGain": 5,
+            "duration": 25000
+          }
+        },
+        {
+          "text": "Normal işleyişi sürdür",
+          "effects": {
+            "organelleDamage": {
+              "nucleus": 15,
+              "ribosome": 10
+            },
+            "stressIncrease": 12
+          }
+        }
+      ],
+      "correctOption": 0
+    },
+    {
+      "id": "nutrient_shortage",
+      "title": "Besin Kıtlığı",
+      "description": "Dışarıdan besin gelmiyor. Stokları yönetmelisin.",
+      "options": [
+        {
+          "text": "Enerji tasarrufu yap",
+          "effects": {
+            "atpConsumptionMultiplier": 0.7,
+            "proteinProductionMultiplier": 0.5,
+            "stressIncrease": 3,
+            "duration": 30000
+          }
+        },
+        {
+          "text": "Mevcut ATP'yi kullan",
+          "effects": {
+            "atpCost": 25,
+            "wasteIncrease": 8,
+            "stressIncrease": 5
+          }
+        }
+      ],
+      "correctOption": 0
+    },
+    {
+      "id": "repair_opportunity",
+      "title": "Onarım Fırsatı",
+      "description": "Hücre kendini onarmak için uygun bir an. Organelleri güçlendirebilirsin.",
+      "options": [
+        {
+          "text": "Tüm organelleri onar",
+          "effects": {
+            "organelleRepair": {
+              "all": 10
+            },
+            "atpCost": 30,
+            "stressReduction": 5
+          }
+        },
+        {
+          "text": "Sadece kritik organelleri onar",
+          "effects": {
+            "organelleRepair": {
+              "mitochondria": 15,
+              "nucleus": 10
+            },
+            "atpCost": 20,
+            "stressReduction": 3
+          }
+        }
+      ],
+      "correctOption": 1
+    },
+    {
+      "id": "calcium_surge",
+      "title": "Kalsiyum Dalgası",
+      "description": "Hücre içinde kalsiyum seviyesi yükseldi. Sinyal iletimi hızlanıyor.",
+      "options": [
+        {
+          "text": "Sinyalleri optimize et",
+          "effects": {
+            "atpProductionMultiplier": 1.2,
+            "proteinProductionBoost": 1.3,
+            "duration": 20000
+          }
+        },
+        {
+          "text": "Kontrol altına al",
+          "effects": {
+            "atpCost": 8,
+            "stressReduction": 4,
+            "wasteIncrease": 2
+          }
+        }
+      ],
+      "correctOption": 0
+    },
+    {
+      "id": "membrane_damage",
+      "title": "Zar Hasarı",
+      "description": "Hücre zarı zarar gördü. İçeri sızıntı riski var.",
+      "options": [
+        {
+          "text": "Acil onarım başlat",
+          "effects": {
+            "atpCost": 18,
+            "wasteCleaningBoost": 1.5,
+            "stressReduction": 2,
+            "duration": 15000
+          }
+        },
+        {
+          "text": "İç basıncı artır",
+          "effects": {
+            "atpCost": 10,
+            "stressIncrease": 8,
+            "organelleDamage": {
+              "all": 3
+            }
+          }
+        }
+      ],
+      "correctOption": 0
+    }
+  ],
+  "badges": [
+    {
+      "id": "survivor_3min",
+      "name": "Hayatta Kalan",
+      "description": "3 dakika boyunca hücreyi hayatta tut",
+      "icon": "⏱️"
+    },
+    {
+      "id": "atp_master",
+      "name": "Enerji Ustası",
+      "description": "ATP seviyesini 60+ seviyede 45 saniye tut",
+      "icon": "⚡"
+    },
+    {
+      "id": "waste_cleaner",
+      "name": "Temizlik Uzmanı",
+      "description": "Atık seviyesini 30'un altına 3 kez düşür",
+      "icon": "🧹"
+    },
+    {
+      "id": "mito_guardian",
+      "name": "Mitokondri Koruyucusu",
+      "description": "Mitokondriyi 90+ sağlık ile bitir",
+      "icon": "🔋"
+    },
+    {
+      "id": "event_master",
+      "name": "Olay Yöneticisi",
+      "description": "3 olay kartını doğru yönet",
+      "icon": "🎯"
+    },
+    {
+      "id": "calm_cell",
+      "name": "Sakin Hücre",
+      "description": "Stres seviyesini 20'nin altında 60 saniye tut",
+      "icon": "😌"
+    },
+    {
+      "id": "organelle_protector",
+      "name": "Organel Koruyucusu",
+      "description": "Bir organeli tamamen kaybetmeden 5 dakika oyna",
+      "icon": "🛡️"
+    },
+    {
+      "id": "balance_master",
+      "name": "Denge Ustası",
+      "description": "Oyun sonunda tüm barlar 40-80 aralığında",
+      "icon": "⚖️"
+    }
+  ],
+  "help": {
+    "title": "Nasıl Oynanır?",
+    "sections": [
+      {
+        "title": "Amaç",
+        "content": "Hücreyi hayatta tutmak için organeller arası dengeyi koru. ATP, Atık, Stres ve Protein seviyelerini yönet."
+      },
+      {
+        "title": "Temel Değerler",
+        "content": "ATP: Enerji kaynağı. Tüm işlemler ATP gerektirir. Mitokondri üretir.\nAtık: Temizlenmezse stres artırır. Lizozom temizler.\nStres: Yükselirse organeller zarar görür.\nProtein: Hücre fonksiyonları için gerekli. Ribozom üretir."
+      },
+      {
+        "title": "Aksiyonlar",
+        "content": "Besin Al: ATP kazan, ama atık artar.\nAtık Temizle: Atığı azalt, ATP harca.\nProtein Üret: Protein kazan, ATP ve atık maliyeti var.\nOrganel Onar: Seçili organeli onar, yüksek ATP maliyeti."
+      },
+      {
+        "title": "Olay Kartları",
+        "content": "Rastgele olaylar çıkar. İki seçenekten birini seç. Doğru seçim rozet kazandırabilir."
+      },
+      {
+        "title": "İpuçları",
+        "content": "• ATP kritik seviyeye düşerse tüm sistem yavaşlar\n• Atık çok artarsa stres hızla yükselir\n• Stres kritik seviyeye ulaşırsa organeller zarar görür\n• Organeller birbirine bağlıdır - denge önemli"
+      }
+    ]
+  },
+  "story": {
+    "introSteps": [
+      {
+        "id": "intro_1",
+        "type": "narration",
+        "title": "Hücrede Bir Gün",
+        "text": "Merhaba! Sen bir hücre yöneticisisin. Bugün hücreyi hayatta tutmak için organeller arası dengeyi koruyacaksın.",
+        "nextLabel": "Devam"
+      },
+      {
+        "id": "intro_2",
+        "type": "narration",
+        "title": "Görevin",
+        "text": "ATP, Atık, Stres ve Protein seviyelerini yöneterek hücreyi sağlıklı tutmalısın. Her organel önemli bir görev üstleniyor.",
+        "nextLabel": "Organelleri Tanı"
+      }
+    ],
+    "tourSteps": [
+      {
+        "id": "tour_mitochondria",
+        "type": "organel",
+        "title": "Mitokondri",
+        "text": "Ben mitokondriyim! Hücrenin enerji üretim merkeziyim. ATP üretiyorum. Eğer hasar görürsem, tüm sistem yavaşlar. Enerji olmadan hiçbir şey çalışmaz!",
+        "focusOrg": "mitochondria",
+        "nextLabel": "Sonraki"
+      },
+      {
+        "id": "tour_nucleus",
+        "type": "organel",
+        "title": "Çekirdek",
+        "text": "Ben çekirdeğim! Hücrenin kontrol merkeziyim. DNA'mı içeriyorum ve tüm hücre faaliyetlerini yönetiyorum. Bana iyi bak!",
+        "focusOrg": "nucleus",
+        "nextLabel": "Sonraki"
+      },
+      {
+        "id": "tour_ribosome",
+        "type": "organel",
+        "title": "Ribozom",
+        "text": "Ben ribozomum! Protein sentezinden sorumluyum. ATP kullanarak protein üretirim. Proteinler hücre için çok önemli!",
+        "focusOrg": "ribosome",
+        "nextLabel": "Sonraki"
+      },
+      {
+        "id": "tour_golgi",
+        "type": "organel",
+        "title": "Golgi Aygıtı",
+        "text": "Ben Golgi aygıtıyım! Proteinleri işler ve paketlerim. Protein seviyesini düzenlerim. Her şeyi düzenli tutarım!",
+        "focusOrg": "golgi",
+        "nextLabel": "Sonraki"
+      },
+      {
+        "id": "tour_er",
+        "type": "organel",
+        "title": "Endoplazmik Retikulum",
+        "text": "Ben endoplazmik retikulumum! Protein ve lipid üretiminde görev alıyorum. Hücre içi taşıma sistemiyim.",
+        "focusOrg": "er",
+        "nextLabel": "Sonraki"
+      },
+      {
+        "id": "tour_lysosome",
+        "type": "organel",
+        "title": "Lizozom",
+        "text": "Ben lizozomum! Atık temizleme organeliyim. Atıkları parçalar ve hücreyi temiz tutarım. Çok çalışkanım!",
+        "focusOrg": "lysosome",
+        "nextLabel": "Sonraki"
+      },
+      {
+        "id": "tour_vacuole",
+        "type": "organel",
+        "title": "Koful",
+        "text": "Ben kofulum! Hücre içi depolama organeliyim. Su, besin ve atık maddeleri saklarım. Hücrenin deposuyum!",
+        "focusOrg": "vacuole",
+        "nextLabel": "Başla"
+      }
+    ],
+    "decisionSteps": [
+      {
+        "id": "decision_1",
+        "type": "decision",
+        "title": "İlk Karar",
+        "text": "Hücreye besin geldi. Ne yapmalısın?",
+        "options": [
+          {
+            "id": "opt_1a",
+            "label": "Hemen besin al",
+            "delta": {
+              "atp": 8,
+              "waste": 6,
+              "stress": -2,
+              "protein": 0
+            },
+            "feedback": "Besin alındı! ATP arttı ama atık da biriktirdin."
+          },
+          {
+            "id": "opt_1b",
+            "label": "Bekle, önce atık temizle",
+            "delta": {
+              "atp": -5,
+              "waste": -8,
+              "stress": -3,
+              "protein": 0
+            },
+            "feedback": "Önce temizlik yaptın. Atık azaldı ama biraz ATP harcadın."
+          }
+        ],
+        "afterText": "İyi bir karar verdin! Hücre dengede kaldı.",
+        "nextLabel": "Devam"
+      },
+      {
+        "id": "decision_2",
+        "type": "decision",
+        "title": "Enerji Yönetimi",
+        "text": "Mitokondri çok çalışıyor ama stres artıyor. Ne yapmalısın?",
+        "options": [
+          {
+            "id": "opt_2a",
+            "label": "Üretimi hızlandır",
+            "delta": {
+              "atp": 12,
+              "waste": 4,
+              "stress": 8,
+              "protein": 2
+            },
+            "feedback": "Üretim hızlandı! ATP arttı ama stres de yükseldi."
+          },
+          {
+            "id": "opt_2b",
+            "label": "Dengeli çalış",
+            "delta": {
+              "atp": 5,
+              "waste": 2,
+              "stress": -2,
+              "protein": 1
+            },
+            "feedback": "Dengeli yaklaşım! Her şey kontrollü ilerliyor."
+          }
+        ],
+        "afterText": "Dengeli kararlar hücreyi sağlıklı tutar.",
+        "nextLabel": "Devam"
+      },
+      {
+        "id": "decision_3",
+        "type": "decision",
+        "title": "Protein Üretimi",
+        "text": "Ribozomlar protein üretmek istiyor ama ATP düşük. Ne yapmalısın?",
+        "options": [
+          {
+            "id": "opt_3a",
+            "label": "Protein üret",
+            "delta": {
+              "atp": -8,
+              "waste": 3,
+              "stress": 2,
+              "protein": 10
+            },
+            "feedback": "Protein üretildi! Ama ATP düştü ve atık arttı."
+          },
+          {
+            "id": "opt_3b",
+            "label": "Önce ATP biriktir",
+            "delta": {
+              "atp": 6,
+              "waste": 1,
+              "stress": -1,
+              "protein": -2
+            },
+            "feedback": "ATP biriktirdin. Protein biraz azaldı ama enerji arttı."
+          }
+        ],
+        "afterText": "Zamanlama önemli! Doğru sırada karar vermek gerekir.",
+        "nextLabel": "Devam"
+      },
+      {
+        "id": "decision_4",
+        "type": "decision",
+        "title": "Oksijen Azalması",
+        "text": "Hücre çevresindeki oksijen seviyesi düştü. Mitokondri etkileniyor. Ne yapmalısın?",
+        "options": [
+          {
+            "id": "opt_4a",
+            "label": "Enerji tasarrufu yap",
+            "delta": {
+              "atp": -3,
+              "waste": -2,
+              "stress": -4,
+              "protein": -1
+            },
+            "feedback": "Tasarruf moduna geçtin. Stres azaldı ama üretim yavaşladı."
+          },
+          {
+            "id": "opt_4b",
+            "label": "Hızlı üretim dene",
+            "delta": {
+              "atp": 10,
+              "waste": 5,
+              "stress": 6,
+              "protein": 2
+            },
+            "feedback": "Hızlı üretim denedin. ATP arttı ama stres ve atık yükseldi."
+          }
+        ],
+        "afterText": "Oksijen azaldığında dengeli yaklaşım önemlidir.",
+        "nextLabel": "Devam"
+      },
+      {
+        "id": "decision_5",
+        "type": "decision",
+        "title": "Atık Krizi",
+        "text": "Atık seviyesi kritik seviyeye ulaştı! Hızlı karar vermelisin.",
+        "options": [
+          {
+            "id": "opt_5a",
+            "label": "Lizozomları aktifleştir",
+            "delta": {
+              "atp": -10,
+              "waste": -12,
+              "stress": -3,
+              "protein": 0
+            },
+            "feedback": "Lizozomlar çalıştı! Atık temizlendi ama ATP harcandı."
+          },
+          {
+            "id": "opt_5b",
+            "label": "Bekle, kendiliğinden azalsın",
+            "delta": {
+              "atp": 2,
+              "waste": 4,
+              "stress": 8,
+              "protein": 0
+            },
+            "feedback": "Bekledin ama atık ve stres daha da arttı!"
+          }
+        ],
+        "afterText": "Atık krizi durumunda hızlı müdahale şarttır.",
+        "nextLabel": "Devam"
+      },
+      {
+        "id": "decision_6",
+        "type": "decision",
+        "title": "Organel Hasarı",
+        "text": "Bir organel hasar gördü. Onarım için ATP gerekiyor. Ne yapmalısın?",
+        "options": [
+          {
+            "id": "opt_6a",
+            "label": "Hemen onar",
+            "delta": {
+              "atp": -15,
+              "waste": 2,
+              "stress": -2,
+              "protein": 0
+            },
+            "feedback": "Organel onarıldı! ATP harcandı ama stres azaldı."
+          },
+          {
+            "id": "opt_6b",
+            "label": "Sonra onar, önce enerji topla",
+            "delta": {
+              "atp": 5,
+              "waste": 1,
+              "stress": 5,
+              "protein": 0
+            },
+            "feedback": "Enerji topladın ama organel hasarı devam ediyor, stres arttı."
+          }
+        ],
+        "afterText": "Organel hasarı erken müdahale gerektirir.",
+        "nextLabel": "Devam"
+      },
+      {
+        "id": "decision_7",
+        "type": "decision",
+        "title": "Stres Yönetimi",
+        "text": "Stres seviyesi yükseliyor. Hücre rahatlamaya ihtiyaç duyuyor.",
+        "options": [
+          {
+            "id": "opt_7a",
+            "label": "Tüm sistemleri yavaşlat",
+            "delta": {
+              "atp": -2,
+              "waste": -3,
+              "stress": -8,
+              "protein": -2
+            },
+            "feedback": "Sistemler yavaşlatıldı. Stres azaldı ama üretim düştü."
+          },
+          {
+            "id": "opt_7b",
+            "label": "Normal çalışmaya devam et",
+            "delta": {
+              "atp": 4,
+              "waste": 3,
+              "stress": 6,
+              "protein": 2
+            },
+            "feedback": "Normal çalışmaya devam ettin. Üretim arttı ama stres de yükseldi."
+          }
+        ],
+        "afterText": "Stres yönetimi denge gerektirir.",
+        "nextLabel": "Devam"
+      },
+      {
+        "id": "decision_8",
+        "type": "decision",
+        "title": "Besin Kıtlığı",
+        "text": "Dışarıdan besin gelmiyor. Stokları yönetmelisin.",
+        "options": [
+          {
+            "id": "opt_8a",
+            "label": "Enerji tasarrufu yap",
+            "delta": {
+              "atp": -1,
+              "waste": -2,
+              "stress": 2,
+              "protein": -3
+            },
+            "feedback": "Tasarruf moduna geçtin. Kaynaklar korundu ama protein azaldı."
+          },
+          {
+            "id": "opt_8b",
+            "label": "Mevcut kaynakları kullan",
+            "delta": {
+              "atp": -8,
+              "waste": 4,
+              "stress": 4,
+              "protein": 1
+            },
+            "feedback": "Mevcut kaynakları kullandın. Kısa vadede iyi ama uzun vadede riskli."
+          }
+        ],
+        "afterText": "Besin kıtlığında uzun vadeli düşünmek önemlidir.",
+        "nextLabel": "Devam"
+      },
+      {
+        "id": "decision_9",
+        "type": "decision",
+        "title": "Fazla Şeker",
+        "text": "Hücreye aşırı şeker girdi. Enerji patlaması ama atık riski var.",
+        "options": [
+          {
+            "id": "opt_9a",
+            "label": "Kontrollü kullan",
+            "delta": {
+              "atp": 8,
+              "waste": 4,
+              "stress": 1,
+              "protein": 1
+            },
+            "feedback": "Kontrollü kullandın. ATP arttı, dengeli bir artış oldu."
+          },
+          {
+            "id": "opt_9b",
+            "label": "Tam güç kullan",
+            "delta": {
+              "atp": 18,
+              "waste": 10,
+              "stress": 7,
+              "protein": 3
+            },
+            "feedback": "Tam güç kullandın! ATP çok arttı ama atık ve stres de yükseldi."
+          }
+        ],
+        "afterText": "Fazla şeker kontrollü kullanılmalıdır.",
+        "nextLabel": "Devam"
+      },
+      {
+        "id": "decision_10",
+        "type": "decision",
+        "title": "Hücre Büyümesi",
+        "text": "Hücre büyümek istiyor. Daha fazla protein ve enerji gerekiyor.",
+        "options": [
+          {
+            "id": "opt_10a",
+            "label": "Büyümeyi destekle",
+            "delta": {
+              "atp": -6,
+              "waste": 3,
+              "stress": 2,
+              "protein": 8
+            },
+            "feedback": "Büyümeyi destekledin. Protein arttı ama ATP harcandı."
+          },
+          {
+            "id": "opt_10b",
+            "label": "Önce mevcut durumu koru",
+            "delta": {
+              "atp": 3,
+              "waste": -1,
+              "stress": -2,
+              "protein": -1
+            },
+            "feedback": "Mevcut durumu korudun. Dengeli bir yaklaşım sergiledin."
+          }
+        ],
+        "afterText": "Büyüme için hazır olmak önemlidir.",
+        "nextLabel": "Devam"
+      }
+    ],
+    "startDaySteps": [
+      {
+        "id": "start_1",
+        "type": "narration",
+        "title": "Gün Başlıyor",
+        "text": "Artık hazırsın! Hücreyi yönetmeye başlayabilirsin. Organeller arası dengeyi korumayı unutma. İyi şanslar!",
+        "nextLabel": "Oyunu Başlat"
+      }
+    ]
+  }
+}
+
